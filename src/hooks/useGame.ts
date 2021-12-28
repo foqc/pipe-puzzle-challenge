@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { GET_MAP_COMMAND, PUZZLE_COMMANDS, ROTATE_COMMAND } from '../constants/Constants'
-import { isMapAsString, parseMap } from '../utils/utils'
+import { isMapAsString, levelPassword, parseMap } from '../utils/utils'
 import { useSocket } from './useSocket'
 
 const n = 1
@@ -11,6 +11,7 @@ export const useGame = () => {
         handleClickSendMessage,
         response
     } = useSocket('wss://hometask.eg1236.com/game-pipes/')
+    console.log("🚀 ~ response", response)
 
     const [squares, setSquares] = useState(Array.from({ length: n }, () => Array.from({ length: n }, () => '')))
 
@@ -29,6 +30,7 @@ export const useGame = () => {
         squares,
         socketIsReady,
         handleClickSendMessage,
-        handleClick
+        handleClick,
+        levelPassword: levelPassword(response)
     }
 }

@@ -24,3 +24,5 @@ export const parseMap = (map: string): Array<Array<string>> => {
  * @returns true if contains [map:] in the map encoded string
  */
 export const isMapAsString = (stringMap: string): boolean => stringMap?.includes('map:')
+
+export const levelPassword = (status: string): string => status?.toString()?.includes('Correct.') ? 'pass' : ''
