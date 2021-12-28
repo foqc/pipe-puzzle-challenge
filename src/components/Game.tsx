@@ -6,10 +6,8 @@ const Game = () => {
     const {
         squares, socketIsReady,
         handleClickSendMessage,
-        response,
         handleClick
     } = useGame()
-
     return <>
         <button disabled={!socketIsReady} onClick={() =>
             handleClickSendMessage(PUZZLE_COMMANDS.get(HELP_COMMAND))
@@ -19,8 +17,6 @@ const Game = () => {
             handleClickSendMessage(PUZZLE_COMMANDS.get(GET_MAP_COMMAND))
         }}>First Level</button><br />
 
-        {response}<br />
-        
         <div className="game">
             <div className="game-board">
                 <Board squares={squares} onClick={(x, y) => handleClick(x, y)} />
