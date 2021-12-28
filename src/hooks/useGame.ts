@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import { GET_MAP_COMMAND, PUZZLE_COMMANDS, ROTATE_COMMAND } from '../constants/Constants'
 import { isMapAsString, parseMap } from '../utils/utils'
 import { useSocket } from './useSocket'
 
-const n = 8
+const n = 1
 export const useGame = () => {
 
     const {
@@ -20,9 +21,8 @@ export const useGame = () => {
     }, [response])
 
     const handleClick = (posX: number, posY: number) => {
-        const newSqares = [...squares]
-        newSqares[posX][posY] = '0'
-        setSquares(newSqares)
+        handleClickSendMessage(`${PUZZLE_COMMANDS.get(ROTATE_COMMAND)} ${posY} ${posX}`)
+        handleClickSendMessage(`${PUZZLE_COMMANDS.get(GET_MAP_COMMAND)}`)
     }
 
     return {
