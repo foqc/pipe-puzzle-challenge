@@ -1,4 +1,4 @@
-import { CROSS_PIPE, ELBOW_PIPE, LARGE_LINE_PIPE, Pipe, SMALL_LINE_PIPE, T_PIPE } from '../entities/types'
+import { Pipe, PipeSquare } from '../entities/types'
 
 /**
  * 
@@ -20,6 +20,55 @@ export const parseMap = (map: string): Array<Array<string>> => {
     return rows?.slice(1, rows?.length - 1)?.map(row => row?.split('')?.map(item => item))
 }
 
+export const parsePipe = (map: string): Pipe => {
+    switch (map) {
+        case '┓':
+            return ({ hasTop: false, hasRight: false, hasBottom: true, hasLeft: true })
+        case '┛':
+            return ({ hasTop: true, hasRight: false, hasBottom: false, hasLeft: true })
+        case '┗':
+            return ({ hasTop: true, hasRight: true, hasBottom: false, hasLeft: false })
+        case '┏':
+            return ({ hasTop: false, hasRight: true, hasBottom: true, hasLeft: false })
+
+        case '╸':
+            return ({ hasTop: false, hasRight: false, hasBottom: false, hasLeft: true })
+        case '╹':
+            return ({ hasTop: true, hasRight: false, hasBottom: false, hasLeft: false })
+        case '╺':
+            return ({ hasTop: false, hasRight: true, hasBottom: false, hasLeft: false })
+        case '╻':
+            return ({ hasTop: false, hasRight: false, hasBottom: true, hasLeft: false })
+
+        case '━':
+            return ({ hasTop: false, hasRight: true, hasBottom: false, hasLeft: true })
+        case '┃':
+            return ({ hasTop: true, hasRight: false, hasBottom: true, hasLeft: false })
+
+        case '┣':
+            return ({ hasTop: true, hasRight: true, hasBottom: true, hasLeft: false })
+        case '┳':
+            return ({ hasTop: false, hasRight: true, hasBottom: true, hasLeft: true })
+        case '┫':
+            return ({ hasTop: true, hasRight: false, hasBottom: true, hasLeft: true })
+        case '┻':
+            return ({ hasTop: true, hasRight: true, hasBottom: false, hasLeft: true })
+
+        case '╋':
+            return ({ hasTop: true, hasRight: true, hasBottom: true, hasLeft: true })
+        default:
+            return ({ hasTop: true, hasRight: true, hasBottom: true, hasLeft: true })
+    }
+}
+
+export const parseMapToPipeSquareMatrix = (matrix: string[][]): PipeSquare[][] => {
+    return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item), false, 'red')))
+}
+
+export const fromPipeToString = (pipe: Pipe) => {
+
+    if(pipe.ha)
+}
 /**
  * 
  * @param stringMap , see parseMap encoded documentation

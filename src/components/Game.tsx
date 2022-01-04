@@ -1,5 +1,6 @@
 import { FIRST_LEVEL_COMMAND, GET_MAP_COMMAND, PUZZLE_COMMANDS, VERIFY_COMMAND } from '../constants/Constants'
 import { useGame } from '../hooks/useGame'
+import { useGameAsistant } from '../hooks/useGameAsistant'
 import Board from './Board'
 
 const Game = () => {
@@ -8,6 +9,8 @@ const Game = () => {
         handleClickSendMessage,
         handleClick, levelPassword
     } = useGame()
+
+    const {table, handleClickPipe} = useGameAsistant()
     return <>
         <button disabled={!socketIsReady} onClick={() => {
             handleClickSendMessage(PUZZLE_COMMANDS.get(FIRST_LEVEL_COMMAND))
@@ -20,6 +23,12 @@ const Game = () => {
         <div className="game">
             <div className="game-board">
                 <Board squares={squares} onClick={(x, y) => handleClick(x, y)} />
+            </div>
+        </div>
+        
+        <div className="game">
+            <div className="game-board">
+                <Board squares={table} onClick={(x, y) => handleClickPipe(x, y)} />
             </div>
         </div>
     </>
