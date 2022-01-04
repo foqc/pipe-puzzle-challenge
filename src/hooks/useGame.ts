@@ -11,7 +11,6 @@ export const useGame = () => {
         handleClickSendMessage,
         response
     } = useSocket('wss://hometask.eg1236.com/game-pipes/')
-    console.log("🚀 ~ response", response)
 
     const [squares, setSquares] = useState(Array.from({ length: n }, () => Array.from({ length: n }, () => '')))
 

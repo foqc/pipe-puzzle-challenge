@@ -1,3 +1,5 @@
+import { CROSS_PIPE, ELBOW_PIPE, LARGE_LINE_PIPE, Pipe, SMALL_LINE_PIPE, T_PIPE } from '../entities/types'
+
 /**
  * 
  * @param map puzzle map as string, it has the next structure
@@ -26,3 +28,12 @@ export const parseMap = (map: string): Array<Array<string>> => {
 export const isMapAsString = (stringMap: string): boolean => stringMap?.includes('map:')
 
 export const levelPassword = (status: string): string => status?.toString()?.includes('Correct.') ? 'pass' : ''
+
+export const getPipeSidesArray = (pipe: Pipe): boolean[] => [pipe.hasTop, pipe.hasRight, pipe.hasBottom, pipe.hasLeft]
+
+export const fromArrayToPipe = (sides: boolean[]): Pipe => ({
+    hasTop: sides[0],
+    hasRight: sides[1],
+    hasLeft: sides[2],
+    hasBottom: sides[3],
+})
