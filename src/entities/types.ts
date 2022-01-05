@@ -7,6 +7,12 @@ export type Pipe = {
     hasBottom: boolean
 }
 
+export type PipeSquareShape = {
+    shape: string
+    isConnected: boolean
+    color: string
+}
+
 export class PipeSquare {
     pipe: Pipe
     isConnected: boolean

@@ -24,10 +24,9 @@ export class GameAsistant {
         for (let x = 0; x < this.rows; x++) {
             for (let y = 0; y < this.cols; y++) {
                 //set connected to false to begin with - logic will correct if truly connected
-                this.matrix[x][y - 1].setIsConnected(false)
-                this.matrix[x - 1][y].setIsConnected(false)
                 //start with second row
                 if (y > 0) {
+                    this.matrix[x][y - 1].setIsConnected(false)
                     //check if top of square matches bottom of square above it
                     if (this.matrix[x][y - 1].pipe.hasBottom && this.matrix[x][y].pipe.hasTop) {
                         this.matrix[x][y - 1].setIsConnected(true)
@@ -36,6 +35,7 @@ export class GameAsistant {
                 }
                 //start with second column
                 if (x > 0) {
+                    this.matrix[x - 1][y].setIsConnected(false)
                     //check to see if left of square matches right of square to left of it
                     if (this.matrix[x - 1][y].pipe.hasRight == this.matrix[x][y].pipe.hasLeft) {
                         this.matrix[x - 1][y].setIsConnected(true)

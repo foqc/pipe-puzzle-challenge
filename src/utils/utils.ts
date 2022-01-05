@@ -1,5 +1,6 @@
-import { Pipe, PipeSquare } from '../entities/types'
+import { Pipe, PipeSquare, PipeSquareShape } from '../entities/types'
 
+const PIPE_SHAPES = ['┓', '┛', '┗', '┏', '╸', '╹', '╺', '╻', '━', '┃', '┣', '┳', '┫', '┻', '╋']
 /**
  * 
  * @param map puzzle map as string, it has the next structure
@@ -18,6 +19,10 @@ import { Pipe, PipeSquare } from '../entities/types'
 export const parseMap = (map: string): Array<Array<string>> => {
     const rows = map?.split(/\r\n|\r|\n/)
     return rows?.slice(1, rows?.length - 1)?.map(row => row?.split('')?.map(item => item))
+}
+
+export const parseMapToPipeShape = (matrix: Array<Array<string>>): PipeSquareShape[][] => {
+    return matrix.map(row => row.map(item => ({ shape: item, isConnected: false, color: 'red' })))
 }
 
 export const parsePipe = (map: string): Pipe => {
@@ -61,13 +66,18 @@ export const parsePipe = (map: string): Pipe => {
     }
 }
 
+export const parsePipeShapeToPipeSquare = (matrix: PipeSquareShape[][]): PipeSquare[][] => {
+    return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item.shape), false, 'red')))
+}
+
 export const parseMapToPipeSquareMatrix = (matrix: string[][]): PipeSquare[][] => {
     return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item), false, 'red')))
 }
 
-export const fromPipeToString = (pipe: Pipe) => {
-
-    if(pipe.ha)
+export const fromPipeToPipeSquareShape = (pipeSquare: PipeSquare): PipeSquareShape => {
+    const isSamePipe = (source: Pipe, target: Pipe) => source.hasTop === target.hasTop && source.hasRight === target.hasRight
+        && source.hasBottom === target.hasBottom && source.hasLeft === target.hasLeft
+    return { shape: PIPE_SHAPES.find(shape => isSamePipe(pipeSquare.pipe, parsePipe(shape))) || '', isConnected: pipeSquare.isConnected, color: pipeSquare.color }
 }
 /**
  * 

@@ -1,7 +1,8 @@
+import { PipeSquareShape } from '../entities/types'
 import Square from './Square'
 
 interface BoardProps {
-    squares: Array<Array<string>>
+    squares: Array<Array<PipeSquareShape>>
     onClick: (posX: number, posY: number) => void
 }
 
