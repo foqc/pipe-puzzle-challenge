@@ -35,18 +35,26 @@ export class PipeSquare {
     }
 
     rotateElbowPipe(sides: boolean[]): boolean[] {
+        const newSides = [...sides]
         if (!this.isElbowPipe(sides)) return sides
         for (let i = 0; i < sides.length; i++) {
+            if (sides[0] && sides[sides.length - 1] && i === sides.length - 1) {
+                newSides[0] = true
+                newSides[sides.length - 1] = false
+                newSides[sides.length - 2] = false
+                continue
+            }
             if (sides[i]) {
                 const pos = i + 1 < sides.length ? i + 1 : 0
                 const adyacentPos = pos + 1 < sides.length ? pos + 1 : 0
-                sides[i] = false
-                sides[pos] = true
-                sides[adyacentPos] = true
-                break
+                newSides[i] = false
+                newSides[pos] = true
+                newSides[adyacentPos] = true
+                // break
+                i++
             }
         }
-        return sides
+        return newSides
     }
 
     isTPipe(sides: boolean[]): boolean {
@@ -94,7 +102,10 @@ export class PipeSquare {
     }
 
     isLargeLinePipe(sides: boolean[]): boolean {
-        return sides === [false, true, false, true] || sides === [true, false, true, false]
+        const verticalShape = [false, true, false, true]
+        const horizontalShape = [true, false, true, false]
+        return sides.every((item, index) => item === verticalShape[index])
+            || sides.every((item, index) => item === horizontalShape[index])
     }
 
     rotateLargeLinePipe(sides: boolean[]): boolean[] {
@@ -117,9 +128,9 @@ export class PipeSquare {
     rotate(): void {
         const sides: boolean[] = getPipeSidesArray(this.pipe)
         let maybeRotatedSides = this.rotateElbowPipe(sides)
-        maybeRotatedSides = this.rotateTPipe(sides)
-        maybeRotatedSides = this.rotateSmallLinePipe(sides)
-        maybeRotatedSides = this.rotateLargeLinePipe(sides)
+        maybeRotatedSides = this.rotateTPipe(maybeRotatedSides)
+        maybeRotatedSides = this.rotateSmallLinePipe(maybeRotatedSides)
+        maybeRotatedSides = this.rotateLargeLinePipe(maybeRotatedSides)
 
         this.pipe = fromArrayToPipe(maybeRotatedSides)
     }

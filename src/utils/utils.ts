@@ -93,6 +93,6 @@ export const getPipeSidesArray = (pipe: Pipe): boolean[] => [pipe.hasTop, pipe.h
 export const fromArrayToPipe = (sides: boolean[]): Pipe => ({
     hasTop: sides[0],
     hasRight: sides[1],
-    hasLeft: sides[2],
-    hasBottom: sides[3],
+    hasBottom: sides[2],
+    hasLeft: sides[3],
 })
