@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { GameAsistant } from '../entities/GameAsistant'
 import { PipeSquareShape } from '../entities/types'
-import { fromPipeToPipeSquareShape, isMapAsString, levelPassword, parseMap, parseMapToPipeShape, parseMapToPipeSquareMatrix, parsePipeShapeToPipeSquare } from '../utils/utils'
+import { fromPipeMatrixToString, fromPipeToPipeSquareShape, isMapAsString, levelPassword, parseMap, parseMapToPipeShape, parseMapToPipeSquareMatrix, parsePipeShapeToPipeSquare } from '../utils/utils'
 import mapString from '../assets/map'
 export const useGameAsistant = () => {
 
@@ -29,8 +29,22 @@ export const useGameAsistant = () => {
         setSquares(matrix)
     }
 
+    const onVerify = () => {
+        const stringMatrix = fromPipeMatrixToString(asistant!.matrix)
+        let matrixResult = ''
+        for (let row = 0; row < asistant!.rows; row++) {
+            for (let col = 0; col < asistant!.cols; col++) {
+                matrixResult += stringMatrix[row][col]
+            }
+            matrixResult += '\n'
+        }
+
+        console.log(matrixResult)
+    }
+
     return {
         squareShapes,
         handleClickPipe,
+        onVerify
     }
 }

@@ -10,7 +10,7 @@ const Game = () => {
         handleClick, levelPassword
     } = useGame()
 
-    const {squareShapes, handleClickPipe} = useGameAsistant()
+    const {squareShapes, handleClickPipe, onVerify} = useGameAsistant()
     return <>
         <button disabled={!socketIsReady} onClick={() => {
             handleClickSendMessage(PUZZLE_COMMANDS.get(FIRST_LEVEL_COMMAND))
@@ -30,6 +30,7 @@ const Game = () => {
             <div className="game-board">
                 <Board squares={squareShapes} onClick={(x, y) => handleClickPipe(x, y)} />
             </div>
+            <button onClick={onVerify}>Verify</button><br />
         </div>
     </>
 }

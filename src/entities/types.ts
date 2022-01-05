@@ -50,7 +50,6 @@ export class PipeSquare {
                 newSides[i] = false
                 newSides[pos] = true
                 newSides[adyacentPos] = true
-                // break
                 i++
             }
         }

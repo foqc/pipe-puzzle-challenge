@@ -74,10 +74,15 @@ export const parseMapToPipeSquareMatrix = (matrix: string[][]): PipeSquare[][] =
     return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item), false, 'red')))
 }
 
+const isSamePipe = (source: Pipe, target: Pipe) => source.hasTop === target.hasTop && source.hasRight === target.hasRight
+    && source.hasBottom === target.hasBottom && source.hasLeft === target.hasLeft
+
 export const fromPipeToPipeSquareShape = (pipeSquare: PipeSquare): PipeSquareShape => {
-    const isSamePipe = (source: Pipe, target: Pipe) => source.hasTop === target.hasTop && source.hasRight === target.hasRight
-        && source.hasBottom === target.hasBottom && source.hasLeft === target.hasLeft
     return { shape: PIPE_SHAPES.find(shape => isSamePipe(pipeSquare.pipe, parsePipe(shape))) || '', isConnected: pipeSquare.isConnected, color: pipeSquare.color }
+}
+
+export const fromPipeMatrixToString = (matrix: PipeSquare[][]): string[][] => {
+    return matrix.map(rows => rows.map(item => PIPE_SHAPES.find(shape => isSamePipe(item.pipe, parsePipe(shape))) || ''))
 }
 /**
  * 
