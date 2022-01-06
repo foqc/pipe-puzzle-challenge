@@ -70,9 +70,9 @@ export const parsePipeShapeToPipeSquare = (matrix: PipeSquareShape[][]): PipeSqu
     return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item.shape), false, 'red')))
 }
 
-export const parseMapToPipeSquareMatrix = (matrix: string[][]): PipeSquare[][] => {
-    return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item), false, 'red')))
-}
+// export const parseMapToPipeSquareMatrix = (matrix: string[][]): PipeSquare[][] => {
+//     return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item), false, 'white')))
+// }
 
 const isSamePipe = (source: Pipe, target: Pipe) => source.hasTop === target.hasTop && source.hasRight === target.hasRight
     && source.hasBottom === target.hasBottom && source.hasLeft === target.hasLeft

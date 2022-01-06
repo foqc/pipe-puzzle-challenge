@@ -17,29 +17,33 @@ export class GameAsistant {
     }
 
     evaluateTiles(): void {
-        //square above would be y-1
-        //square below is y+1
-        //square to left is x-1;
-        //square to right is x+1;
         for (let x = 0; x < this.rows; x++) {
             for (let y = 0; y < this.cols; y++) {
-                //set connected to false to begin with - logic will correct if truly connected
-                //start with second row
-                if (y > 0) {
-                    this.matrix[x][y - 1].setIsConnected(false)
-                    //check if top of square matches bottom of square above it
-                    if (this.matrix[x][y - 1].pipe.hasBottom && this.matrix[x][y].pipe.hasTop) {
-                        this.matrix[x][y - 1].setIsConnected(true)
-                        this.matrix[x][y - 1].setColor('blue')
-                    }
+
+                if (x === 0 || y === 0 || x === this.rows - 1 || y === this.cols - 1) {
+                    if ((x === 0 && this.matrix[x][y].pipe.hasTop)
+                        || (x === this.rows - 1 && this.matrix[x][y].pipe.hasBottom)
+                        || (y === 0 && this.matrix[x][y].pipe.hasLeft)
+                        || (y === this.cols - 1 && this.matrix[x][y].pipe.hasRight)) {
+                        this.matrix[x][y].setIsConnected(false)
+                        this.matrix[x][y].setColor('red')
+                    } else
+                        this.matrix[x][y].setColor('blue')
                 }
-                //start with second column
+
                 if (x > 0) {
                     this.matrix[x - 1][y].setIsConnected(false)
-                    //check to see if left of square matches right of square to left of it
-                    if (this.matrix[x - 1][y].pipe.hasRight == this.matrix[x][y].pipe.hasLeft) {
+                    if (this.matrix[x - 1][y].pipe.hasBottom && this.matrix[x][y].pipe.hasTop) {
                         this.matrix[x - 1][y].setIsConnected(true)
                         this.matrix[x - 1][y].setColor('blue')
+                    }
+                }
+                
+                if (y > 1) {
+                    this.matrix[x][y - 1].setIsConnected(false)
+                    if (this.matrix[x][y - 1].pipe.hasRight == this.matrix[x][y].pipe.hasLeft) {
+                        this.matrix[x][y - 1].setIsConnected(true)
+                        this.matrix[x][y - 1].setColor('blue')
                     }
                 }
             }
