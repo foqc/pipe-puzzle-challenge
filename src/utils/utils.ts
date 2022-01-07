@@ -67,7 +67,7 @@ export const parsePipe = (map: string): Pipe => {
 }
 
 export const parsePipeShapeToPipeSquare = (matrix: PipeSquareShape[][]): PipeSquare[][] => {
-    return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item.shape), false, 'red')))
+    return matrix.map((rows, row) => rows.map((item, col) => new PipeSquare(parsePipe(item.shape), false, 'red', row, col)))
 }
 
 // export const parseMapToPipeSquareMatrix = (matrix: string[][]): PipeSquare[][] => {

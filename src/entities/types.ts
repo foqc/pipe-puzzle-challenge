@@ -17,11 +17,15 @@ export class PipeSquare {
     pipe: Pipe
     isConnected: boolean
     color: string
+    posX: number
+    posY: number
 
-    constructor(pipe: Pipe, isConnected: boolean, color: string) {
+    constructor(pipe: Pipe, isConnected: boolean, color: string, posX: number, posY: number) {
         this.pipe = pipe
         this.isConnected = isConnected
         this.color = color
+        this.posX = posX
+        this.posY = posY
     }
 
     isElbowPipe(sides: boolean[]): boolean {

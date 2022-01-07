@@ -4,7 +4,7 @@ import App from './App';
 import { PipeSquare } from './entities/types';
 import { fromArrayToPipe, getPipeSidesArray } from './utils/utils';
 
-const pipeSquare = new PipeSquare({ hasTop: false, hasRight: true, hasBottom: true, hasLeft: true }, false, 'red')
+const pipeSquare = new PipeSquare({ hasTop: false, hasRight: true, hasBottom: true, hasLeft: true }, false, 'red', 5, 6)
 // test('renders learn react link', () => {
 //   render(<App />);
 //   const linkElement = screen.getByText(/learn react/i);
