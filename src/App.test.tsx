@@ -1,15 +1,7 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
 import { PipeSquare } from './entities/types';
 import { fromArrayToPipe, getPipeSidesArray } from './utils/utils';
 
 const pipeSquare = new PipeSquare({ hasTop: false, hasRight: true, hasBottom: true, hasLeft: true }, false, 'red', 5, 6)
-// test('renders learn react link', () => {
-//   render(<App />);
-//   const linkElement = screen.getByText(/learn react/i);
-//   expect(linkElement).toBeInTheDocument();
-// });
 
 test('test if pipe has T shape', () => {
   const tPipe = { hasTop: true, hasRight: true, hasBottom: true, hasLeft: false }//┣
