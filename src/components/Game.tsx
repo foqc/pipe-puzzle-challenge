@@ -7,10 +7,11 @@ const Game = () => {
     const {
         squares, socketIsReady,
         handleClickSendMessage,
-        handleClick, levelPassword
+        handleClick, levelPassword,
+        stringMap
     } = useGame()
 
-    const {squareShapes, handleClickPipe, onVerify} = useGameAsistant()
+    const { squareShapes, handleClickPipe, printInConsoleStatus, movementCommands } = useGameAsistant(stringMap)
     return <>
         <button disabled={!socketIsReady} onClick={() => {
             handleClickSendMessage(PUZZLE_COMMANDS.get(FIRST_LEVEL_COMMAND))
@@ -20,18 +21,22 @@ const Game = () => {
             handleClickSendMessage(PUZZLE_COMMANDS.get(VERIFY_COMMAND))
         }>Verify</button><br />
         password: {levelPassword}
+        <h2>First Map</h2>
         <div className="game">
             <div className="game-board">
-                <Board squares={squares} onClick={(x, y) => handleClick(x, y)} />
+                {squares.length > 0 && <Board squares={squares} onClick={(x, y) => handleClick(x, y)} />}
+                {squares.length === 0 && <p>Please start first level</p>}
             </div>
         </div>
-        Second map: 
+        <h2>Second Map</h2>
         <div className="game">
             <div className="game-board">
-                <Board squares={squareShapes} onClick={(x, y) => handleClickPipe(x, y)} />
+                {squares.length > 0 && <Board squares={squareShapes} onClick={(x, y) => handleClickPipe(x, y)} />}
+                {squares.length === 0 && <p>Please start first level</p>}
             </div>
-            <button onClick={onVerify}>Verify</button><br />
         </div>
+        <button disabled={squares.length === 0} onClick={printInConsoleStatus}>Print status in console</button><br />
+        {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
     </>
 }
 

@@ -13,11 +13,15 @@ export const useGame = () => {
     } = useSocket('wss://hometask.eg1236.com/game-pipes/')
 
     const [squares, setSquares] = useState<PipeSquareShape[][]>([])
+    const [stringMap, setStringMap] = useState('')
 
     useEffect(() => {
         const stringMap = response?.toString()
-        if (isMapAsString(stringMap))
+        console.log("🚀 returned status: ", stringMap)
+        if (isMapAsString(stringMap)) {
             setSquares(parseMapToPipeShape(parseMap(stringMap)))
+            setStringMap(stringMap)
+        }
     }, [response])
 
     const handleClick = (posX: number, posY: number) => {
@@ -30,6 +34,7 @@ export const useGame = () => {
         socketIsReady,
         handleClickSendMessage,
         handleClick,
-        levelPassword: levelPassword(response)
+        levelPassword: levelPassword(response),
+        stringMap
     }
 }

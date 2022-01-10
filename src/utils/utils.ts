@@ -135,11 +135,12 @@ export const fromArrayToPipe = (sides: boolean[]): Pipe => ({
 /**
  * 
  * @param movementSatus array of record movements when user rotate pipe
- * @returns a string concatenated movements ineach position for instance, rotate posY posX\nposY posX\nposY posX
+ * @returns a string concatenated movements ineach position for instance, posY posX\nposY posX\nposY posX
  * each 20 movements adds a "|" character to string to allow to chunk the string after
  */
 export const movementStatusToCommand = (movementSatus: PositionTuple[] = []): string => {
-    return movementSatus.reduce((previous, current, index) => `${index % 20 === 0 ? '|' : ''}${previous} ${current[1]} ${current[0]}\n`, 'rotate ')
+    if (movementSatus?.length == 0) return ''
+    return movementSatus.reduce((previous, current, index) => `${previous} ${current[1]} ${current[0]}${(index + 1) % 20 === 0 ? '|' : ''}\n`, '')
 }
 
 /**
@@ -147,4 +148,7 @@ export const movementStatusToCommand = (movementSatus: PositionTuple[] = []): st
  * @param command receives string command like rotate posY posX\nposY posX\n|posY posX
  * @returns chunked commands
  */
-export const chunkCommand = (command: string): string[] => command.split('|')
+export const chunkCommand = (command: string | undefined): string[] => {
+    if (command?.length === 0) return []
+    return command?.split('|').map(chunk => `rotate ${chunk}`) || []
+}

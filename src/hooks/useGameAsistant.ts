@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react'
 import { GameAsistant } from '../entities/GameAsistant'
 import { PipeSquareShape } from '../entities/types'
-import { fromPipeMatrixToString, fromPipeToPipeSquareShape, isMapAsString, levelPassword, parseMap, parseMapToPipeShape, parsePipeShapeToPipeSquare } from '../utils/utils'
-import mapString from '../assets/map'
-export const useGameAsistant = () => {
+import { chunkCommand, fromPipeMatrixToString, fromPipeToPipeSquareShape, isMapAsString, levelPassword, movementStatusToCommand, parseMap, parseMapToPipeShape, parsePipeShapeToPipeSquare } from '../utils/utils'
+// import mapString from '../assets/map'
+
+export const useGameAsistant = (mapString: string) => {
 
     const [squareShapes, setSquares] = useState<PipeSquareShape[][]>([])
     const [asistant, setAsistant] = useState<GameAsistant>()
 
     useEffect(() => {
-        setSquares(parseMapToPipeShape(parseMap(mapString)))
-    }, [])
+        if (mapString?.length > 0 && !asistant)
+            setSquares(parseMapToPipeShape(parseMap(mapString)))
+    }, [mapString])
 
     useEffect(() => {
-        if (squareShapes.length > 0)
+        if (squareShapes.length > 0 && !asistant)
             setAsistant(new GameAsistant(parsePipeShapeToPipeSquare(squareShapes)))
     }, [squareShapes])
 
@@ -29,7 +31,7 @@ export const useGameAsistant = () => {
         setSquares(matrix)
     }
 
-    const onVerify = () => {
+    const printInConsoleStatus = () => {
         const stringMatrix = fromPipeMatrixToString(asistant!.matrix)
         let matrixResult = ''
         for (let row = 0; row < asistant!.rows; row++) {
@@ -45,6 +47,7 @@ export const useGameAsistant = () => {
     return {
         squareShapes,
         handleClickPipe,
-        onVerify
+        printInConsoleStatus,
+        movementCommands: chunkCommand(movementStatusToCommand(asistant?.movementStatus))
     }
 }
