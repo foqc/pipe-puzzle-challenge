@@ -19,7 +19,7 @@ export class GameAsistant {
     disconnectAllPipes() {
         for (let y = 0; y < this.rows; y++) {
             for (let x = 0; x < this.cols; x++) {
-                this.matrix[y][x].isConnected = false
+                this.matrix[y][x].setIsConnected(false)
             }
         }
     }
@@ -27,7 +27,7 @@ export class GameAsistant {
     evaluateMapPipes(): void {
         this.disconnectAllPipes()
         let visitedPipes: PipeSquare[] = []
-        this.evaluateTileAtPos(0, 0, visitedPipes)
+        this.evaluatePipeAt(0, 0, visitedPipes)
     }
 
     isInsideOfMatrix(posX: number, posY: number): boolean {
@@ -109,13 +109,12 @@ export class GameAsistant {
         return list
     }
 
-    evaluateTileAtPos(posX: number, posY: number, visitedPipes: PipeSquare[]) {
+    evaluatePipeAt(posX: number, posY: number, visitedPipes: PipeSquare[]) {
         const pipeSquare = this.getPipeAt(posX, posY)
         pipeSquare.setIsConnected(true)
         visitedPipes.push(pipeSquare)
-        const adyacentConnectedPipes = this.getAdyacenteConnectedPipes(posX, posY)
 
-        const adyacentConnectedPipesToVisit = adyacentConnectedPipes.filter(currentPipeSquare => {
+        const adyacentConnectedPipesToVisit = this.getAdyacenteConnectedPipes(posX, posY).filter(currentPipeSquare => {
             for (let i = 0; i < visitedPipes.length; i++) {
                 const visitedPipe = visitedPipes[i]
                 if (visitedPipe.posX === currentPipeSquare.posX && visitedPipe.posY === currentPipeSquare.posY) {
@@ -126,6 +125,6 @@ export class GameAsistant {
         })
 
         if (adyacentConnectedPipesToVisit.length === 0) { return true }
-        adyacentConnectedPipesToVisit.forEach(currentPipeSquare => this.evaluateTileAtPos(currentPipeSquare.posX, currentPipeSquare.posY, visitedPipes))
+        adyacentConnectedPipesToVisit.forEach(currentPipeSquare => this.evaluatePipeAt(currentPipeSquare.posX, currentPipeSquare.posY, visitedPipes))
     }
 }
