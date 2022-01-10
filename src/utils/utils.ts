@@ -118,7 +118,7 @@ export const isMapAsString = (stringMap: string): boolean => stringMap?.includes
 
 export const levelPassword = (status: string): string => {
     const msg = status?.toString() || ''
-    if (msg.includes('Correct.')) {
+    if (msg.includes('Correct!')) {
         const splitMsg = msg.split(':') || []
         return splitMsg.length > 0 ? splitMsg[splitMsg.length - 1] : ''
     }
