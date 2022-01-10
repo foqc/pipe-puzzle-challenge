@@ -147,7 +147,7 @@ export const fromArrayToPipe = (sides: boolean[]): Pipe => ({
  */
 export const movementStatusToCommand = (movementSatus: PositionTuple[] = []): string => {
     if (movementSatus?.length == 0) return ''
-    return movementSatus.reduce((previous, current, index) => `${previous} ${current[1]} ${current[0]}${(index + 1) % 20 === 0 ? '|' : ''}\n`, '')
+    return movementSatus.reduce((previous, current, index) => `${previous} ${current[1]} ${current[0]}\n${(index + 1) % 20 === 0 ? '|' : ''}`, '')
 }
 
 /**
@@ -157,5 +157,5 @@ export const movementStatusToCommand = (movementSatus: PositionTuple[] = []): st
  */
 export const chunkCommand = (command: string | undefined): string[] => {
     if (command?.length === 0) return []
-    return command?.split('|').map(chunk => `rotate ${chunk}`) || []
+    return command?.split('|').map(chunk => `rotate ${chunk}`).filter(chunk => chunk !== 'rotate ') || []
 }
