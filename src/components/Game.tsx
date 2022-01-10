@@ -2,6 +2,7 @@ import { PipeSquareShape } from '../entities/types'
 import { useGame } from '../hooks/useGame'
 import { useGameAsistant } from '../hooks/useGameAsistant'
 import Board from './Board'
+import Instructions from './Instructions'
 
 const Game = () => {
     const {
@@ -25,13 +26,17 @@ const Game = () => {
     </div>
 
     return <div className='layout-grid'>
+        <div className='col'><h2>Pipes Puzzle</h2></div>
+        <Instructions />
         <div className='col-half'>
             <div className='game-content'>
                 <h2>Server Map</h2>
                 {showGameBoard(squares, handleClick)}
-                <button className='btn btn--green' disabled={!socketIsReady} onClick={() => initLevel(1)}>Start first level</button>
+                <button className='btn btn--green' disabled={!socketIsReady || squares.length > 0} onClick={() => initLevel(1)}>Start first level</button>
                 <button className='btn btn--blue' disabled={!socketIsReady} onClick={onVerify}>Verify</button>
-                password: {levelPassword}
+                <p>
+                    Level password: <span className={`${levelPassword ? '' : 'txt--red'}`}>{levelPassword ? levelPassword : 'Incorrect'}</span>
+                </p>
             </div>
         </div>
         <div className='col-half'>
@@ -47,7 +52,7 @@ const Game = () => {
                 {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
             </div>
         </div>
-    </div>
+    </div >
 }
 
 export default Game

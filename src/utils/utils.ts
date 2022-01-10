@@ -116,7 +116,14 @@ export const fromPipeToPipeSquareShape = (pipeSquare: PipeSquare): PipeSquareSha
  */
 export const isMapAsString = (stringMap: string): boolean => stringMap?.includes('map:')
 
-export const levelPassword = (status: string): string => status?.toString()?.includes('Correct.') ? status : ''
+export const levelPassword = (status: string): string => {
+    const msg = status?.toString() || ''
+    if (msg.includes('Correct.')) {
+        const splitMsg = msg.split(':') || []
+        return splitMsg.length > 0 ? splitMsg[splitMsg.length - 1] : ''
+    }
+    return ''
+}
 
 export const getPipeSidesArray = (pipe: Pipe): boolean[] => [pipe.hasTop, pipe.hasRight, pipe.hasBottom, pipe.hasLeft]
 

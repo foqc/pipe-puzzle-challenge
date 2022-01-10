@@ -31,6 +31,10 @@ ol, ul {
   grid-column: span 6 / span 6;
 }
 
+.col {
+  grid-column: span 12 / span 12;
+}
+
 .game-content {
   display: flex;
   flex-direction: column;
@@ -106,6 +110,10 @@ ol, ul {
   border-color: #3D9970;
   color: white;
   background-color: #3D9970;
+}
+
+.txt--red {
+  color: rgb(243, 4, 4);
 }
 
 @media (max-width: 768px){
