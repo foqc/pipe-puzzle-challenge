@@ -36,7 +36,7 @@ export const useGame = () => {
     }
 
     const initLevel = (level: number) => {
-        if (level < 0 || level > 6) throw Error(`${level} not exist! There are only 6 levels.`)
+        if (level < 0 || level > 6) throw Error(`${level} level not exist! There are only 6 levels.`)
         handleClickSendMessage(`${PUZZLE_COMMANDS.get(START_LEVEL_COMMAND)} ${level}`)
         handleClickSendMessage(PUZZLE_COMMANDS.get(GET_MAP_COMMAND))
     }

@@ -26,22 +26,26 @@ const Game = () => {
 
     return <div className='layout-grid'>
         <div className='col-half'>
-            <h2>Server Map</h2>
-            {showGameBoard(squares, handleClick)}
-            <button disabled={!socketIsReady} onClick={() => initLevel(1)}>Start first level</button>
-            <button disabled={!socketIsReady} onClick={onVerify}>Verify</button>
-            password: {levelPassword}
+            <div className='game-content'>
+                <h2>Server Map</h2>
+                {showGameBoard(squares, handleClick)}
+                <button className='btn btn--green' disabled={!socketIsReady} onClick={() => initLevel(1)}>Start first level</button>
+                <button className='btn btn--blue' disabled={!socketIsReady} onClick={onVerify}>Verify</button>
+                password: {levelPassword}
+            </div>
         </div>
         <div className='col-half'>
-            <h2>Local Map</h2>
-            {showGameBoard(squareShapes, handleClickPipe)}
-            <button disabled={squares.length === 0} onClick={printInConsoleStatus}>Print map in console</button>
-            <button disabled={movementCommands.length === 0} onClick={() => {
-                sendMoveCommands(movementCommands)
-                clearMovements()
-            }}>Send commands</button>
-            <h3>Commands pending to send</h3>
-            {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
+            <div className='game-content'>
+                <h2>Local Map</h2>
+                {showGameBoard(squareShapes, handleClickPipe)}
+                <button className='btn btn--green' disabled={squares.length === 0} onClick={printInConsoleStatus}>Print map in console</button>
+                <button className='btn btn--blue' disabled={movementCommands.length === 0} onClick={() => {
+                    sendMoveCommands(movementCommands)
+                    clearMovements()
+                }}>Send commands</button>
+                <h3>Commands pending to send</h3>
+                {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
+            </div>
         </div>
     </div>
 }
