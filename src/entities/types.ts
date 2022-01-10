@@ -1,5 +1,8 @@
 import { fromArrayToPipe, getPipeSidesArray } from '../utils/utils'
 
+export enum DIRECTION {
+    UP, RIGHT, DOWN, LEFT
+}
 export type Pipe = {
     hasTop: boolean
     hasRight: boolean

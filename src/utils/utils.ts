@@ -1,6 +1,7 @@
 import { Pipe, PipeSquare, PipeSquareShape } from '../entities/types'
 
 const PIPE_SHAPES = ['┓', '┛', '┗', '┏', '╸', '╹', '╺', '╻', '━', '┃', '┣', '┳', '┫', '┻', '╋']
+
 /**
  * 
  * @param map puzzle map as string, it has the next structure
@@ -21,12 +22,32 @@ export const parseMap = (map: string): Array<Array<string>> => {
     return rows?.slice(1, rows?.length - 1)?.map(row => row?.split('')?.map(item => item))
 }
 
+/**
+ * 
+ * @param matrix receives  the following map as matrix
+ *  * ┛┃╻┗╺╺┏╻
+ * ┣╹╺╋┫┓┃╹
+ * ┏┏┓┏━╻━━
+ * ╹┳┳╻╹━┣┛
+ * ━╻┻┣╻┳┣╺
+ * ┏┓┃┓┫┻╹╺
+ * ┗┳┳┓┛╋┓━
+ * ╻┗┓╺╸┗━┏
+ * 
+ * @returns a matrix parse to PipeSquareShape
+ */
 export const parseMapToPipeShape = (matrix: Array<Array<string>>): PipeSquareShape[][] => {
     return matrix.map(row => row.map(item => ({ shape: item, isConnected: false, color: 'red' })))
 }
 
-export const parsePipe = (map: string): Pipe => {
-    switch (map) {
+/**
+ * 
+ * @param pipeAsTring is one of the next pipes PIPE_SHAPES (see constant values)
+ * 4 variables y Pipe type is used to represent elbow (┓), T (┳), crossed lines (╋), straight small (╹) and large (┃) lines.
+ * @returns parsed Pipe type
+ */
+export const parsePipe = (pipeAsTring: string): Pipe => {
+    switch (pipeAsTring) {
         case '┓':
             return ({ hasTop: false, hasRight: false, hasBottom: true, hasLeft: true })
         case '┛':
@@ -62,17 +83,24 @@ export const parsePipe = (map: string): Pipe => {
         case '╋':
             return ({ hasTop: true, hasRight: true, hasBottom: true, hasLeft: true })
         default:
-            return ({ hasTop: true, hasRight: true, hasBottom: true, hasLeft: true })
+            throw Error(pipeAsTring + ' is not supported!');
     }
 }
 
+/**
+ * 
+ * @param matrix receives PipeSquareShape as matrix
+ * @returns PipeSquare matrix
+ * PipeSquareShape structure is used in view to paint content
+ * PipeSquare structure represents string pipe as typed Pipe object and is used in Game assitant
+ */
 export const parsePipeShapeToPipeSquare = (matrix: PipeSquareShape[][]): PipeSquare[][] => {
     return matrix.map((rows, row) => rows.map((item, col) => new PipeSquare(parsePipe(item.shape), false, 'red', row, col)))
 }
 
-// export const parseMapToPipeSquareMatrix = (matrix: string[][]): PipeSquare[][] => {
-//     return matrix.map(rows => rows.map(item => new PipeSquare(parsePipe(item), false, 'white')))
-// }
+export const fromPipeMatrixToString = (matrix: PipeSquare[][]): string[][] => {
+    return matrix.map(rows => rows.map(item => PIPE_SHAPES.find(shape => isSamePipe(item.pipe, parsePipe(shape))) || ''))
+}
 
 const isSamePipe = (source: Pipe, target: Pipe) => source.hasTop === target.hasTop && source.hasRight === target.hasRight
     && source.hasBottom === target.hasBottom && source.hasLeft === target.hasLeft
@@ -81,9 +109,6 @@ export const fromPipeToPipeSquareShape = (pipeSquare: PipeSquare): PipeSquareSha
     return { shape: PIPE_SHAPES.find(shape => isSamePipe(pipeSquare.pipe, parsePipe(shape))) || '', isConnected: pipeSquare.isConnected, color: pipeSquare.color }
 }
 
-export const fromPipeMatrixToString = (matrix: PipeSquare[][]): string[][] => {
-    return matrix.map(rows => rows.map(item => PIPE_SHAPES.find(shape => isSamePipe(item.pipe, parsePipe(shape))) || ''))
-}
 /**
  * 
  * @param stringMap , see parseMap encoded documentation

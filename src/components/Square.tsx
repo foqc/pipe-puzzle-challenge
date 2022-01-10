@@ -7,7 +7,7 @@ interface SquareProps {
 
 const Square = ({ value, onClick }: SquareProps) => {
   return (
-    <button className='square' onClick={onClick} style={{ backgroundColor: value.isConnected ? 'purple' : 'red' }}>
+    <button className='square' onClick={onClick} style={{ color: value.isConnected ? 'blue' : 'red' }}>
       {value.shape}
     </button>
   );

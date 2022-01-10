@@ -1,5 +1,4 @@
-import { getPipeSidesArray } from '../utils/utils'
-import { PipeSquare } from './types'
+import { DIRECTION, PipeSquare } from './types'
 
 export class GameAsistant {
     matrix: PipeSquare[][]
@@ -14,97 +13,119 @@ export class GameAsistant {
 
     rotateTile(posX: number, posY: number): void {
         this.matrix[posX][posY].rotate()
-        this.evaluateTiles()
+        this.evaluateMapPipes()
     }
 
-    adyacentPipeIsConnected(pipeSquare: PipeSquare, waterSources: PipeSquare[][], row: number, col: number): boolean {
-        if (row + 1 < this.rows) {
-            return (pipeSquare.pipe.hasBottom && waterSources[row + 1][col].pipe.hasTop)
+    disconnectAllPipes() {
+        for (let y = 0; y < this.rows; y++) {
+            for (let x = 0; x < this.cols; x++) {
+                this.matrix[y][x].isConnected = false
+            }
         }
-        if (row - 1 > 0) {
-            return (pipeSquare.pipe.hasTop && waterSources[row - 1][col].pipe.hasBottom)
-        }
-        if (col + 1 < this.cols) {
-            return (pipeSquare.pipe.hasRight && waterSources[row][col + 1].pipe.hasLeft)
-        }
-        if (col - 1 > 0) {
-            return (pipeSquare.pipe.hasLeft && waterSources[row][col - 1].pipe.hasRight)
-        }
-
-        return false
     }
 
-    getAdyacentPipes(pipeSquare: PipeSquare | undefined, waterSources: PipeSquare[][]): PipeSquare[] {
-        if (!pipeSquare) return []
-        const pipes: PipeSquare[] = []
-        const row = pipeSquare.posX
-        const col = pipeSquare.posY
-        if (row + 1 < this.rows) {
-            pipes.push(waterSources[row + 1][col])
-        }
-        if (row - 1 > 0) {
-            pipes.push(waterSources[row - 1][col])
-        }
-        if (col + 1 < this.cols) {
-            pipes.push(waterSources[row][col + 1])
-        }
-        if (col - 1 > 0) {
-            pipes.push(waterSources[row][col - 1])
-        }
-        return pipes
+    evaluateMapPipes(): void {
+        this.disconnectAllPipes()
+        let visitedPipes: PipeSquare[] = []
+        this.evaluateTileAtPos(0, 0, visitedPipes)
     }
 
-    pipesAreConnected(source: PipeSquare, target: PipeSquare) {
-        return source.pipe.hasBottom && target.pipe.hasTop
-            || source.pipe.hasTop && target.pipe.hasBottom
-            || source.pipe.hasLeft && target.pipe.hasRight
-            || source.pipe.hasRight && target.pipe.hasLeft
+    isInsideOfMatrix(posX: number, posY: number): boolean {
+        return posX >= 0 && posX < this.rows && posY >= 0 && posY < this.cols
     }
 
-    isWrongPlacesFirstLastColRow(x: number, y: number) {
-        return (x === 0 && this.matrix[x][y].pipe.hasTop)
-            || (x === this.rows - 1 && this.matrix[x][y].pipe.hasBottom)
-            || (y === 0 && this.matrix[x][y].pipe.hasLeft)
-            || (y === this.cols - 1 && this.matrix[x][y].pipe.hasRight)
+    getUpPipe(posX: number, posY: number): PipeSquare | null {
+        if (this.isInsideOfMatrix(posX - 1, posY))
+            return this.matrix[posX - 1][posY]
+        return null;
     }
 
-    evaluateTiles(): void {
-        const pipesWithWaterToProcess: Array<PipeSquare> = []
-        const waterSources: PipeSquare[][] = this.matrix
+    getRightPipe(posX: number, posY: number): PipeSquare | null {
+        if (this.isInsideOfMatrix(posX, posY + 1))
+            return this.matrix[posX][posY + 1]
+        return null
+    }
 
-        // pipesWithWaterToProcess.push(waterSources[0][0])
-        // waterSources[0][0].setIsConnected(true)
-        // console.log('here..... ', waterSources)
-        waterSources.forEach((rows, row) => {
-            rows.forEach((pipeSquare, col) => {
-                if (this.adyacentPipeIsConnected(pipeSquare, waterSources, row, col)) {
-                    if (!pipeSquare.isConnected) {
-                        pipesWithWaterToProcess.push(pipeSquare)
-                        pipeSquare.setIsConnected(true)
-                    }
+    getDownPipe(posX: number, posY: number): PipeSquare | null {
+        if (this.isInsideOfMatrix(posX + 1, posY))
+            return this.matrix[posX + 1][posY]
+        return null
+    }
+
+    getLeftPipe(posX: number, posY: number): PipeSquare | null {
+        if (this.isInsideOfMatrix(posX, posY - 1))
+            return this.matrix[posX][posY - 1]
+        return null
+    }
+
+    getPipeAt(posX: number, posY: number): PipeSquare {
+        return this.matrix[posX][posY]
+    }
+
+    adyacentPipeIsConnected(source: PipeSquare | null, target: PipeSquare | null, direction: DIRECTION): boolean {
+        if (!source || !target) return false
+        const { pipe: sourcePipe } = source
+        const { pipe: targetPipe } = target
+        switch (direction) {
+            case DIRECTION.UP:
+                return sourcePipe.hasTop && targetPipe.hasBottom;
+            case DIRECTION.RIGHT:
+                return sourcePipe.hasRight && targetPipe.hasLeft;
+            case DIRECTION.DOWN:
+                return sourcePipe.hasBottom && targetPipe.hasTop;
+            case DIRECTION.LEFT:
+                return sourcePipe.hasLeft && targetPipe.hasRight;
+            default:
+                return false
+        }
+    }
+
+    getAdyacenteConnectedPipes(posX: number, posY: number): PipeSquare[] {
+        let list: PipeSquare[] = []
+        const currentPipeSquare = this.getPipeAt(posX, posY)
+        const upPipeSquare = this.getUpPipe(posX, posY)
+        const rightPipeSquare = this.getRightPipe(posX, posY)
+        const downPipeSquare = this.getDownPipe(posX, posY)
+        const leftPipeSquare = this.getLeftPipe(posX, posY)
+
+        if (!currentPipeSquare) return list
+
+        if (upPipeSquare !== null
+            && this.adyacentPipeIsConnected(currentPipeSquare, this.getPipeAt(upPipeSquare.posX, upPipeSquare.posY), DIRECTION.UP)) {
+            list.push(upPipeSquare)
+        }
+        if (rightPipeSquare !== null
+            && this.adyacentPipeIsConnected(currentPipeSquare, this.getPipeAt(rightPipeSquare.posX, rightPipeSquare.posY), DIRECTION.RIGHT)) {
+            list.push(rightPipeSquare)
+        }
+        if (downPipeSquare !== null
+            && this.adyacentPipeIsConnected(currentPipeSquare, this.getPipeAt(downPipeSquare.posX, downPipeSquare.posY), DIRECTION.DOWN)) {
+            list.push(downPipeSquare)
+        }
+        if (leftPipeSquare !== null
+            && this.adyacentPipeIsConnected(currentPipeSquare, this.getPipeAt(leftPipeSquare.posX, leftPipeSquare.posY), DIRECTION.LEFT)) {
+            list.push(leftPipeSquare)
+        }
+        return list
+    }
+
+    evaluateTileAtPos(posX: number, posY: number, visitedPipes: PipeSquare[]) {
+        const pipeSquare = this.getPipeAt(posX, posY)
+        pipeSquare.setIsConnected(true)
+        visitedPipes.push(pipeSquare)
+        const adyacentConnectedPipes = this.getAdyacenteConnectedPipes(posX, posY)
+
+        const adyacentConnectedPipesToVisit = adyacentConnectedPipes.filter(currentPipeSquare => {
+            for (let i = 0; i < visitedPipes.length; i++) {
+                const visitedPipe = visitedPipes[i]
+                if (visitedPipe.posX === currentPipeSquare.posX && visitedPipe.posY === currentPipeSquare.posY) {
+                    return false
                 }
-            })
-        });
+            }
+            return true
+        })
 
-        let TEST_COUNT = 0
-        while (pipesWithWaterToProcess.length && TEST_COUNT < 1000) {
-            const currentPipe = pipesWithWaterToProcess.pop()
-
-            console.log(TEST_COUNT, ' poping.... ', currentPipe, pipesWithWaterToProcess.length)
-            TEST_COUNT++
-            console.log('adyacent pipes: ', this.getAdyacentPipes(currentPipe, waterSources))
-            this.getAdyacentPipes(currentPipe, waterSources).forEach(adyacentPipeSquare => {
-
-                if (this.pipesAreConnected(currentPipe!, adyacentPipeSquare)) {
-                    adyacentPipeSquare.setIsConnected(false)
-                    if (!adyacentPipeSquare.isConnected) {
-                        // const { pipe, isConnected, color, posX, posY } = adyacentPipeSquare
-                        // const newAdyacentPipeSquare: PipeSquare = new PipeSquare({ ...pipe }, isConnected, color, posX, posY)
-                        adyacentPipeSquare.setIsConnected(true)
-                        pipesWithWaterToProcess.push(adyacentPipeSquare)
-                    }
-                }
-            });
-        }
+        if (adyacentConnectedPipesToVisit.length === 0) { return true }
+        adyacentConnectedPipesToVisit.forEach(currentPipeSquare => this.evaluateTileAtPos(currentPipeSquare.posX, currentPipeSquare.posY, visitedPipes))
     }
 }
