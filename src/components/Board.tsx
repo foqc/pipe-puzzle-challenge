@@ -4,12 +4,14 @@ import Square from './Square'
 interface BoardProps {
     squares: Array<Array<PipeSquareShape>>
     onClick: (posX: number, posY: number) => void
+    isDisabled: boolean
 }
 
-const Board = ({ squares, onClick }: BoardProps) => {
+const Board = ({ squares, onClick, isDisabled }: BoardProps) => {
     const renderSquare = (posX: number, posY: number) => <Square
         key={`${posX}_${posY}`}
         value={squares[posX][posY]}
+        isDisabled={isDisabled}
         onClick={() => onClick(posX, posY)} />
 
     const renderRow = (posX: number) => <div key={`${posX}_`} className="board-row">

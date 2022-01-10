@@ -3,7 +3,7 @@ const Instructions = () => <div className='col'>
     <h2>Instructions</h2>
     <p>
         There are 2 pipe maps, the <strong>first one</strong> is a map that interact directly with the server.
-        It means that when user click on the tile <strong>each time</strong> a rotation command is sent to the server.
+        It means that when user click on the tile <strong>each time</strong> a rotation command is sent to the server (this option is disabled).
     </p>
     <p>
         The <strong>second one</strong> is a map obtained from the server, however when a tile is rotated this interaction
@@ -18,7 +18,7 @@ const Instructions = () => <div className='col'>
     <h2>Steps</h2>
     <ol>
         <li>
-            First press "Start First Level" button to initialize a level.
+            First press <strong>"Start First Level"</strong> button to initialize a level.
         </li>
         <li>
             Click a tile in local map instead a server map to avoid hitting the server.
@@ -27,10 +27,13 @@ const Instructions = () => <div className='col'>
             If the movement carried out is correct the color changes to blue instead of red.
         </li>
         <li>
-            To synchronize server map and the local map, click in "Send Commands" button.
+            To synchronize server map and the local map, click in <strong>"Send Commands"</strong> button.
         </li>
         <li>
-            To check if is a valid solution, click in "Verify" button, if it is valid a <strong>level password</strong> should be displayed.
+            To check if is a valid solution, click in <strong>"Verify"</strong> button, if it is valid a <strong>level password</strong> should be displayed.
+        </li>
+        <li>
+            To print map as string, click in <strong>"Print map in console"</strong> button.
         </li>
     </ol>
 </div>
