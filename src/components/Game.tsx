@@ -30,7 +30,7 @@ const Game = () => {
         <div className='col-half'>
             <div className='game-content'>
                 <h2>Server Map</h2>
-                {showGameBoard(squares, handleClick)}
+                {showGameBoard(squares, () => { })}
                 <button className='btn btn--green' disabled={!socketIsReady || squares.length > 0} onClick={() => initLevel(1)}>Start first level</button>
                 <button className='btn btn--blue' disabled={!socketIsReady} onClick={onVerify}>Verify</button>
                 <p>
