@@ -1,4 +1,5 @@
 const Instructions = () => <div className='col'>
+    <h2>Pipes Puzzle</h2>
     <h2>Instructions</h2>
     <p>
         There are 2 pipe maps, the <strong>first one</strong> is a map that interact directly with the server.

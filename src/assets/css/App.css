@@ -116,8 +116,16 @@ ol, ul {
   color: rgb(243, 4, 4);
 }
 
+.txt--green {
+  color: #3D9970;
+}
+
 @media (max-width: 768px){
   .layout-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .col {
+    grid-column: span 3 / span 3;
   }
 }

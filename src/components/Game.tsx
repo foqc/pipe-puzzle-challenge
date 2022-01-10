@@ -26,7 +26,6 @@ const Game = () => {
     </div>
 
     return <div className='layout-grid'>
-        <div className='col'><h2>Pipes Puzzle</h2></div>
         <Instructions />
         <div className='col-half'>
             <div className='game-content'>
@@ -35,7 +34,7 @@ const Game = () => {
                 <button className='btn btn--green' disabled={!socketIsReady || squares.length > 0} onClick={() => initLevel(1)}>Start first level</button>
                 <button className='btn btn--blue' disabled={!socketIsReady} onClick={onVerify}>Verify</button>
                 <p>
-                    Level password: <span className={`${levelPassword ? '' : 'txt--red'}`}>{levelPassword ? levelPassword : 'Incorrect'}</span>
+                    Level password: <span className={`txt--${levelPassword ? 'green' : 'red'}`}>{levelPassword ? levelPassword : 'Incorrect'}</span>
                 </p>
             </div>
         </div>
