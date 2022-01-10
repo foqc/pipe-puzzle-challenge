@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { GameAsistant } from '../entities/GameAsistant'
 import { PipeSquareShape } from '../entities/types'
-import { chunkCommand, fromPipeMatrixToString, fromPipeToPipeSquareShape, isMapAsString, levelPassword, movementStatusToCommand, parseMap, parseMapToPipeShape, parsePipeShapeToPipeSquare } from '../utils/utils'
-// import mapString from '../assets/map'
+import { chunkCommand, fromPipeMatrixToString, fromPipeToPipeSquareShape, movementStatusToCommand, parseMap, parseMapToPipeShape, parsePipeShapeToPipeSquare } from '../utils/utils'
 
 export const useGameAsistant = (mapString: string) => {
 
@@ -44,10 +43,13 @@ export const useGameAsistant = (mapString: string) => {
         console.log(matrixResult)
     }
 
+    const clearMovements = () => asistant!.clearMovements()
+
     return {
         squareShapes,
         handleClickPipe,
         printInConsoleStatus,
-        movementCommands: chunkCommand(movementStatusToCommand(asistant?.movementStatus))
+        movementCommands: chunkCommand(movementStatusToCommand(asistant?.movementStatus)),
+        clearMovements
     }
 }

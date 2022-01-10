@@ -29,12 +29,19 @@ export const useGame = () => {
         handleClickSendMessage(`${PUZZLE_COMMANDS.get(GET_MAP_COMMAND)}`)
     }
 
+    const sendMoveCommands = (commands: string[]) => {
+        if (commands?.length === 0) return
+        commands.map(cmd => handleClickSendMessage(cmd))
+        handleClickSendMessage(`${PUZZLE_COMMANDS.get(GET_MAP_COMMAND)}`)
+    }
+
     return {
         squares,
         socketIsReady,
         handleClickSendMessage,
         handleClick,
         levelPassword: levelPassword(response),
-        stringMap
+        stringMap,
+        sendMoveCommands
     }
 }

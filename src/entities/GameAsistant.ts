@@ -12,6 +12,10 @@ export class GameAsistant {
         this.cols = matrix[0].length
     }
 
+    clearMovements(): void {
+        this.movementStatus = []
+    }
+
     rotateTile(posX: number, posY: number): void {
         this.movementStatus.push([posX, posY])
         this.matrix[posX][posY].rotate()
