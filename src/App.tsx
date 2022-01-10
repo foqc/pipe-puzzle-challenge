@@ -1,12 +1,12 @@
-import Game from './components/Game';
-import './App.css';
+import Game from './components/Game'
+import './App.css'
 
 function App() {
   return (
-    <div className="App">
+    <main className="content">
       <Game />
-    </div>
-  );
+    </main>
+  )
 }
 
-export default App;
+export default App

@@ -1,4 +1,4 @@
-import { FIRST_LEVEL_COMMAND, GET_MAP_COMMAND, PUZZLE_COMMANDS, VERIFY_COMMAND } from '../constants/Constants'
+import { PipeSquareShape } from '../entities/types'
 import { useGame } from '../hooks/useGame'
 import { useGameAsistant } from '../hooks/useGameAsistant'
 import Board from './Board'
@@ -6,7 +6,7 @@ import Board from './Board'
 const Game = () => {
     const {
         squares, socketIsReady,
-        handleClickSendMessage,
+        initLevel, onVerify,
         handleClick, levelPassword,
         stringMap, sendMoveCommands
     } = useGame()
@@ -17,37 +17,33 @@ const Game = () => {
         clearMovements
     } = useGameAsistant(stringMap)
 
-    return <>
-        <button disabled={!socketIsReady} onClick={() => {
-            handleClickSendMessage(PUZZLE_COMMANDS.get(FIRST_LEVEL_COMMAND))
-            handleClickSendMessage(PUZZLE_COMMANDS.get(GET_MAP_COMMAND))
-        }}>First Level</button><br />
-        <button disabled={!socketIsReady} onClick={() =>
-            handleClickSendMessage(PUZZLE_COMMANDS.get(VERIFY_COMMAND))
-        }>Verify</button><br />
-        password: {levelPassword}
-        <h2>Server Map</h2>
-        <div className="game">
-            <div className="game-board">
-                {squares.length > 0 && <Board squares={squares} onClick={(x, y) => handleClick(x, y)} />}
-                {squares.length === 0 && <p>Please start first level</p>}
-            </div>
+    const showGameBoard = (board: Array<Array<PipeSquareShape>>, handleClick: Function) => <div className="game">
+        <div className="game-board">
+            {board.length > 0 && <Board squares={board} onClick={(x, y) => handleClick(x, y)} />}
+            {board.length === 0 && <p>Please start a level</p>}
         </div>
-        <h2>Local Map</h2>
-        <div className="game">
-            <div className="game-board">
-                {squares.length > 0 && <Board squares={squareShapes} onClick={(x, y) => handleClickPipe(x, y)} />}
-                {squares.length === 0 && <p>Please start first level</p>}
-            </div>
+    </div>
+
+    return <div className='layout-grid'>
+        <div className='col-half'>
+            <h2>Server Map</h2>
+            {showGameBoard(squares, handleClick)}
+            <button disabled={!socketIsReady} onClick={() => initLevel(1)}>Start first level</button>
+            <button disabled={!socketIsReady} onClick={onVerify}>Verify</button>
+            password: {levelPassword}
         </div>
-        <button disabled={squares.length === 0} onClick={printInConsoleStatus}>Print status in console</button><br />
-        <button disabled={movementCommands.length === 0} onClick={() => {
-            sendMoveCommands(movementCommands)
-            clearMovements()
-        }}>Send commands</button><br />
-        <h2>Commands pending to send</h2>
-        {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
-    </>
+        <div className='col-half'>
+            <h2>Local Map</h2>
+            {showGameBoard(squareShapes, handleClickPipe)}
+            <button disabled={squares.length === 0} onClick={printInConsoleStatus}>Print map in console</button>
+            <button disabled={movementCommands.length === 0} onClick={() => {
+                sendMoveCommands(movementCommands)
+                clearMovements()
+            }}>Send commands</button>
+            <h3>Commands pending to send</h3>
+            {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
+        </div>
+    </div>
 }
 
 export default Game

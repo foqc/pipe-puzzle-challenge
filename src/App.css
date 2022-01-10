@@ -7,6 +7,25 @@ ol, ul {
   padding-left: 30px;
 }
 
+.content {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  margin: auto;
+  display: grid;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  -moz-column-gap: 0px;
+  column-gap: 0px;
+}
+
+.col-half {
+  grid-column: span 6 / span 6;
+}
+
 .board-row:after {
   clear: both;
   content: "";
@@ -36,10 +55,6 @@ ol, ul {
   outline: none;
 }
 
-.kbd-navigation .square:focus {
-  background: #ddd;
-}
-
 .game {
   display: flex;
   flex-direction: row;
@@ -47,4 +62,11 @@ ol, ul {
 
 .game-info {
   margin-left: 20px;
+}
+
+
+@media (max-width: 768px){
+  .layout-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { GET_MAP_COMMAND, PUZZLE_COMMANDS, ROTATE_COMMAND } from '../constants/Constants'
+import { START_LEVEL_COMMAND, GET_MAP_COMMAND, PUZZLE_COMMANDS, ROTATE_COMMAND, VERIFY_COMMAND } from '../constants/Constants'
 import { PipeSquareShape } from '../entities/types'
 import { isMapAsString, levelPassword, parseMap, parseMapToPipeShape } from '../utils/utils'
 import { useSocket } from './useSocket'
@@ -35,13 +35,24 @@ export const useGame = () => {
         handleClickSendMessage(`${PUZZLE_COMMANDS.get(GET_MAP_COMMAND)}`)
     }
 
+    const initLevel = (level: number) => {
+        if (level < 0 || level > 6) throw Error(`${level} not exist! There are only 6 levels.`)
+        handleClickSendMessage(`${PUZZLE_COMMANDS.get(START_LEVEL_COMMAND)} ${level}`)
+        handleClickSendMessage(PUZZLE_COMMANDS.get(GET_MAP_COMMAND))
+    }
+
+    const onVerify = () => {
+        handleClickSendMessage(PUZZLE_COMMANDS.get(VERIFY_COMMAND))
+    }
+
     return {
         squares,
         socketIsReady,
-        handleClickSendMessage,
+        initLevel,
         handleClick,
         levelPassword: levelPassword(response),
         stringMap,
-        sendMoveCommands
+        sendMoveCommands,
+        onVerify
     }
 }

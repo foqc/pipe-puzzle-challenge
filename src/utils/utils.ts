@@ -83,7 +83,7 @@ export const parsePipe = (pipeAsTring: string): Pipe => {
         case '╋':
             return ({ hasTop: true, hasRight: true, hasBottom: true, hasLeft: true })
         default:
-            throw Error(pipeAsTring + ' is not supported!');
+            throw Error(pipeAsTring + ' is not supported!')
     }
 }
 
@@ -116,7 +116,7 @@ export const fromPipeToPipeSquareShape = (pipeSquare: PipeSquare): PipeSquareSha
  */
 export const isMapAsString = (stringMap: string): boolean => stringMap?.includes('map:')
 
-export const levelPassword = (status: string): string => status?.toString()?.includes('Correct.') ? 'pass' : ''
+export const levelPassword = (status: string): string => status?.toString()?.includes('Correct.') ? status : ''
 
 export const getPipeSidesArray = (pipe: Pipe): boolean[] => [pipe.hasTop, pipe.hasRight, pipe.hasBottom, pipe.hasLeft]
 
