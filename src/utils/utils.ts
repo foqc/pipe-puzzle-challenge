@@ -1,4 +1,4 @@
-import { Pipe, PipeSquare, PipeSquareShape } from '../entities/types'
+import { Pipe, PipeSquare, PipeSquareShape, PositionTuple } from '../entities/types'
 
 const PIPE_SHAPES = ['┓', '┛', '┗', '┏', '╸', '╹', '╺', '╻', '━', '┃', '┣', '┳', '┫', '┻', '╋']
 
@@ -120,9 +120,31 @@ export const levelPassword = (status: string): string => status?.toString()?.inc
 
 export const getPipeSidesArray = (pipe: Pipe): boolean[] => [pipe.hasTop, pipe.hasRight, pipe.hasBottom, pipe.hasLeft]
 
+/**
+ * 
+ * @param sides is an array of 4 positions that represents top, right, bottom and left (in this order) of pipe shape
+ * @returns Pipe type
+ */
 export const fromArrayToPipe = (sides: boolean[]): Pipe => ({
     hasTop: sides[0],
     hasRight: sides[1],
     hasBottom: sides[2],
     hasLeft: sides[3],
 })
+
+/**
+ * 
+ * @param movementSatus array of record movements when user rotate pipe
+ * @returns a string concatenated movements ineach position for instance, rotate posY posX\nposY posX\nposY posX
+ * each 20 movements adds a "|" character to string to allow to chunk the string after
+ */
+export const movementStatusToCommand = (movementSatus: PositionTuple[] = []): string => {
+    return movementSatus.reduce((previous, current, index) => `${index % 20 === 0 ? '|' : ''}${previous} ${current[1]} ${current[0]}\n`, 'rotate ')
+}
+
+/**
+ * 
+ * @param command receives string command like rotate posY posX\nposY posX\n|posY posX
+ * @returns chunked commands
+ */
+export const chunkCommand = (command: string): string[] => command.split('|')

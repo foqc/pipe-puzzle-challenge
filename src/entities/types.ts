@@ -1,5 +1,7 @@
 import { fromArrayToPipe, getPipeSidesArray } from '../utils/utils'
 
+export type PositionTuple = [positionX: number, positionY: number]
+
 export enum DIRECTION {
     UP, RIGHT, DOWN, LEFT
 }

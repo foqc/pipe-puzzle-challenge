@@ -1,9 +1,10 @@
-import { DIRECTION, PipeSquare } from './types'
+import { DIRECTION, PipeSquare, PositionTuple } from './types'
 
 export class GameAsistant {
     matrix: PipeSquare[][]
     rows: number
     cols: number
+    movementStatus: PositionTuple[] = []
 
     constructor(matrix: PipeSquare[][]) {
         this.matrix = matrix
@@ -12,6 +13,7 @@ export class GameAsistant {
     }
 
     rotateTile(posX: number, posY: number): void {
+        this.movementStatus.push([posX, posY])
         this.matrix[posX][posY].rotate()
         this.evaluateMapPipes()
     }
