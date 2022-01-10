@@ -1,4 +1,5 @@
-import { Pipe, PipeSquare, PipeSquareShape, PositionTuple } from '../entities/types'
+import { PipeSquare } from '../entities/PipeSquare'
+import { Pipe, PipeSquareShape, PositionTuple } from '../entities/types'
 
 const PIPE_SHAPES = ['┓', '┛', '┗', '┏', '╸', '╹', '╺', '╻', '━', '┃', '┣', '┳', '┫', '┻', '╋']
 

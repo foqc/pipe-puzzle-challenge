@@ -1,4 +1,5 @@
-import { DIRECTION, PipeSquare, PositionTuple } from './types'
+import { PipeSquare } from './PipeSquare'
+import { DIRECTION, PositionTuple } from './types'
 
 export class GameAsistant {
     matrix: PipeSquare[][]

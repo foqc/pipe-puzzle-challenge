@@ -1,5 +1,5 @@
-import { PipeSquare } from './entities/types';
-import { fromArrayToPipe, getPipeSidesArray } from './utils/utils';
+import { PipeSquare } from '../entities/PipeSquare'
+import { fromArrayToPipe, getPipeSidesArray } from '../utils/utils'
 
 const pipeSquare = new PipeSquare({ hasTop: false, hasRight: true, hasBottom: true, hasLeft: true }, false, 'red', 5, 6)
 
