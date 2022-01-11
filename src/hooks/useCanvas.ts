@@ -64,7 +64,7 @@ const useCanvas = (pipesShape: PipeSquareShape[][], onClick: Function) => {
                 context.strokeRect(y, x, boxHeight, boxWidth)
                 context.fillStyle = pipesShape[row][col].isConnected ? 'blue' : 'red'
                 context.font = `${boxWidth - midBoxWidth}px BlinkMacSystemFont`
-                context.fillText(pipesShape[row][col].shape, y + midBoxHeight, x + midBoxWidth)
+                context.fillText(pipesShape[row][col].shape, y + midBoxHeight - 10, x + midBoxWidth + 10)
             }
         }
         context.lineWidth = 1
