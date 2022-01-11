@@ -147,7 +147,7 @@ export const fromArrayToPipe = (sides: boolean[]): Pipe => ({
  * each 20 movements adds a "|" character to string to allow to chunk the string after
  */
 export const movementStatusToCommand = (movementSatus: PositionTuple[] = []): string => {
-    if (movementSatus?.length == 0) return ''
+    if (movementSatus?.length === 0) return ''
     return movementSatus.reduce((previous, current, index) => `${previous} ${current[1]} ${current[0]}\n${(index + 1) % 20 === 0 ? '|' : ''}`, '')
 }
 

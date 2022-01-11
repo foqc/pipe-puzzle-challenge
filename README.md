@@ -38,4 +38,4 @@ This app was built using React js 17 with Typescript 4.
 6. To build project: ``` npm build```
 
 # Demo
-This app is vailable [here](http://localhost:3000/)
+This app is vailable [here](https://61ddd9d364688c15a739e996--sad-stonebraker-3c2e26.netlify.app/)
