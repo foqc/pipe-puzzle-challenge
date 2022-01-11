@@ -160,3 +160,11 @@ export const chunkCommand = (command: string | undefined): string[] => {
     if (command?.length === 0) return []
     return command?.split('|').map(chunk => `rotate ${chunk}`).filter(chunk => chunk !== 'rotate ') || []
 }
+
+export function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
+}

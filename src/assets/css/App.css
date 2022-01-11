@@ -58,12 +58,12 @@ ol, ul {
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 45px;
+  height: 45px;
 }
 
 .square--disabled {
@@ -127,6 +127,11 @@ ol, ul {
 }
 
 @media (max-width: 768px){
+  .square {
+    width: 35px;
+    height: 35px;
+  }
+
   .layout-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

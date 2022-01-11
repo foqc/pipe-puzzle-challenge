@@ -1,7 +1,9 @@
 import { PipeSquareShape } from '../entities/types'
+import useCanvas from '../hooks/useCanvas'
 import { useGame } from '../hooks/useGame'
 import { useGameAsistant } from '../hooks/useGameAsistant'
 import Board from './Board'
+import Canvas from './Canvas'
 import Instructions from './Instructions'
 
 const Game = () => {
@@ -17,6 +19,9 @@ const Game = () => {
         printInConsoleStatus, movementCommands,
         clearMovements
     } = useGameAsistant(stringMap)
+
+    const { sourceCanvas } = useCanvas(squareShapes, handleClickPipe)
+
 
     const showGameBoard = (board: Array<Array<PipeSquareShape>>, handleClick: Function, boardIsDisable: boolean = false) => <div className="game">
         <div className="game-board">
@@ -41,12 +46,12 @@ const Game = () => {
         <div className='col-half'>
             <div className='game-content'>
                 <h2>Local Map</h2>
-                {showGameBoard(squareShapes, handleClickPipe)}
+                <Canvas ref={sourceCanvas} width={350} height={350} />
                 <button className='btn btn--green' disabled={squares.length === 0} onClick={printInConsoleStatus}>Print map in console</button>
                 <button className='btn btn--blue' disabled={movementCommands.length === 0} onClick={() => {
                     sendMoveCommands(movementCommands)
                     clearMovements()
-                }}>Send commands</button>
+                }}>Sync Pipe Maps</button>
                 <h3>Commands pending to send</h3>
                 {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
             </div>

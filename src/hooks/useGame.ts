@@ -32,7 +32,6 @@ export const useGame = () => {
     const sendMoveCommands = (commands: string[]) => {
         if (commands?.length === 0) return
         commands.forEach(cmd => {
-            console.log("🚀 ~cmd: ", cmd)
             handleClickSendMessage(cmd)
         })
         handleClickSendMessage(`${PUZZLE_COMMANDS.get(GET_MAP_COMMAND)}`)
