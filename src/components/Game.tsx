@@ -6,7 +6,7 @@ import Instructions from './Instructions'
 
 const Game = () => {
     const {
-        squares, socketIsReady,
+        socketIsReady,
         initLevel, onVerify,
         levelPassword,
         stringMap, sendMoveCommands
@@ -22,7 +22,7 @@ const Game = () => {
     const showLevels = (levels: number[]) => {
         return <div>
             {levels.map(level => <button key={level}
-                className='btn btn--green' disabled={!socketIsReady || squares.length > 0}
+                className='btn btn--green' disabled={!socketIsReady || squareShapes.length > 0}
                 onClick={() => initLevel(level)}>Start level {level}</button>)
             }
         </div>
@@ -45,7 +45,7 @@ const Game = () => {
                     Level password: <span className={`txt--${levelPassword ? 'green' : 'red'}`}>{levelPassword ? levelPassword : 'Incorrect'}</span>
                 </p>
                 <h3>Commands pending to send</h3>
-                {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
+                {movementCommands?.map((command, idx) => <p key={command + idx}>{(idx + 1)}. {command}</p>)}
             </div>
         </div>
     </div >

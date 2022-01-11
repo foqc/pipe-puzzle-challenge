@@ -18,6 +18,7 @@ export class GameAsistant {
     }
 
     rotateTile(posX: number, posY: number): void {
+        if (!this.isInsideOfMatrix(posX, posY)) throw Error(posX + ' and ' + posY + ' outside!')
         this.movementStatus.push([posX, posY])
         this.matrix[posX][posY].rotate()
         this.evaluateMapPipes()

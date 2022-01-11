@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { START_LEVEL_COMMAND, GET_MAP_COMMAND, PUZZLE_COMMANDS, ROTATE_COMMAND, VERIFY_COMMAND } from '../constants/Constants'
-import { PipeSquareShape } from '../entities/types'
-import { isMapAsString, levelPassword, parseMap, parseMapToPipeShape } from '../utils/utils'
+import { isMapAsString, levelPassword } from '../utils/utils'
 import { useSocket } from './useSocket'
 
 export const useGame = () => {
@@ -12,14 +11,12 @@ export const useGame = () => {
         response
     } = useSocket('wss://hometask.eg1236.com/game-pipes/')
 
-    const [squares, setSquares] = useState<PipeSquareShape[][]>([])
     const [stringMap, setStringMap] = useState('')
 
     useEffect(() => {
         const stringMap = response?.toString()
         console.log("🚀 returned status: ", stringMap)
         if (isMapAsString(stringMap)) {
-            setSquares(parseMapToPipeShape(parseMap(stringMap)))
             setStringMap(stringMap)
         }
     }, [response])
@@ -48,7 +45,6 @@ export const useGame = () => {
     }
 
     return {
-        squares,
         socketIsReady,
         initLevel,
         handleClick,
