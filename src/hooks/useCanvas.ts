@@ -55,13 +55,13 @@ const useCanvas = (pipesShape: PipeSquareShape[][], onClick: Function) => {
             let col = 0
             for (let y = 0; y < height; y += paddingY, col++) {
                 context!.strokeRect(
-                    x + 10, y + 10,
-                    x + paddingX >= width ? paddingX - 10 : paddingX,
-                    y + paddingY >= height ? paddingY - 10 : paddingY
+                    x, y,
+                    x + paddingX >= width ? paddingX : paddingX,
+                    y + paddingY >= height ? paddingY : paddingY
                 )
                 context!.fillStyle = pipesShape[col][row].isConnected ? 'blue' : 'red'
-                context!.font = '25px Arial'
-                context!.fillText(pipesShape[col][row].shape, x + 18, y + 40)
+                context!.font = '35px BlinkMacSystemFont'
+                context!.fillText(pipesShape[col][row].shape, x + 10, y + 35)
             }
         }
         context!.lineWidth = 5
