@@ -10,48 +10,33 @@ const Game = () => {
     const {
         squares, socketIsReady,
         initLevel, onVerify,
-        handleClick, levelPassword,
+        levelPassword,
         stringMap, sendMoveCommands
     } = useGame()
 
     const {
         squareShapes, handleClickPipe,
-        printInConsoleStatus, movementCommands,
-        clearMovements
+         movementCommands,       clearMovements
     } = useGameAsistant(stringMap)
 
     const { sourceCanvas } = useCanvas(squareShapes, handleClickPipe)
 
-
-    const showGameBoard = (board: Array<Array<PipeSquareShape>>, handleClick: Function, boardIsDisable: boolean = false) => <div className="game">
-        <div className="game-board">
-            {board.length > 0 && <Board squares={board} onClick={(x, y) => handleClick(x, y)} isDisabled={boardIsDisable} />}
-            {board.length === 0 && <p>Please start a level</p>}
-        </div>
-    </div>
-
     return <div className='layout-grid'>
         <Instructions />
-        <div className='col-half'>
+        <div className='col'>
             <div className='game-content'>
-                <h2>Server Map</h2>
-                {showGameBoard(squares, handleClick, true)}
-                <button className='btn btn--green' disabled={!socketIsReady || squares.length > 0} onClick={() => initLevel(1)}>Start first level</button>
+                <h2>Map</h2>
+                <Canvas ref={sourceCanvas} width={10} height={10} />
+
+                <button className='btn btn--green' disabled={!socketIsReady || squares.length > 0} onClick={() => initLevel(3)}>Start first level</button>
                 <button className='btn btn--blue' disabled={!socketIsReady} onClick={onVerify}>Verify</button>
-                <p>
-                    Level password: <span className={`txt--${levelPassword ? 'green' : 'red'}`}>{levelPassword ? levelPassword : 'Incorrect'}</span>
-                </p>
-            </div>
-        </div>
-        <div className='col-half'>
-            <div className='game-content'>
-                <h2>Local Map</h2>
-                <Canvas ref={sourceCanvas} width={350} height={350} />
-                <button className='btn btn--green' disabled={squares.length === 0} onClick={printInConsoleStatus}>Print map in console</button>
                 <button className='btn btn--blue' disabled={movementCommands.length === 0} onClick={() => {
                     sendMoveCommands(movementCommands)
                     clearMovements()
-                }}>Sync Pipe Maps</button>
+                }}>Sync Server Map</button>
+                <p>
+                    Level password: <span className={`txt--${levelPassword ? 'green' : 'red'}`}>{levelPassword ? levelPassword : 'Incorrect'}</span>
+                </p>
                 <h3>Commands pending to send</h3>
                 {movementCommands?.map((command, idx) => <p key={idx}>{(idx + 1)}. {command}</p>)}
             </div>

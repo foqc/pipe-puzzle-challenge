@@ -19,11 +19,14 @@ const useCanvas = (pipesShape: PipeSquareShape[][], onClick: Function) => {
     })
 
     useEffect(() => {
-        if (canvas) {
-            setWidth(canvas!.width)
-            setHeight(canvas!.height)
+        if (canvas && pipesShape.length > 0) {
+            const factor = pipesShape.length < 10 ? 50 : pipesShape.length > 30 ? 30 : 70
+            canvas.width = factor * pipesShape.length
+            canvas.height = factor * pipesShape.length
+            setWidth(canvas.width)
+            setHeight(canvas.height)
         }
-    }, [canvas])
+    }, [canvas, pipesShape])
 
 
     useEffect(() => {
@@ -42,31 +45,31 @@ const useCanvas = (pipesShape: PipeSquareShape[][], onClick: Function) => {
     }, [pipesShape, onClick])
 
     const clear = () => {
-        context!.clearRect(0, 0, canvas!.width, canvas!.height)
+        context!.clearRect(0, 0, width, height)
     }
 
     const drawBoard = () => {
+        if (!context) throw Error('Context not found!')
         clear()
         let row = 0
-        const paddingX = canvas!.width / pipesShape.length
-        const paddingY = canvas!.height / pipesShape[0].length
+        let col = 0
+        const boxWidth = width / pipesShape.length
+        const boxHeight = height / pipesShape[0].length
+        const midBoxWidth = boxWidth / 2
+        const midBoxHeight = boxHeight / 2
 
-        for (let x = 0; x < width; x += paddingX, row++) {
-            let col = 0
-            for (let y = 0; y < height; y += paddingY, col++) {
-                context!.strokeRect(
-                    x, y,
-                    x + paddingX >= width ? paddingX : paddingX,
-                    y + paddingY >= height ? paddingY : paddingY
-                )
-                context!.fillStyle = pipesShape[col][row].isConnected ? 'blue' : 'red'
-                context!.font = '35px BlinkMacSystemFont'
-                context!.fillText(pipesShape[col][row].shape, x + 10, y + 35)
+        for (let x = 0; x < width; x += boxWidth, row++) {
+            col = 0
+            for (let y = 0; y < height; y += boxHeight, col++) {
+                context.strokeRect(y, x, boxHeight, boxWidth)
+                context.fillStyle = pipesShape[row][col].isConnected ? 'blue' : 'red'
+                context.font = `${boxWidth - midBoxWidth}px BlinkMacSystemFont`
+                context.fillText(pipesShape[row][col].shape, y + midBoxHeight, x + midBoxWidth)
             }
         }
-        context!.lineWidth = 5
-        context!.strokeStyle = 'black'
-        context!.stroke()
+        context.lineWidth = 1
+        context.strokeStyle = 'black'
+        context.stroke()
     }
 
     const handleClick = (e: MouseEvent) => {
@@ -75,10 +78,10 @@ const useCanvas = (pipesShape: PipeSquareShape[][], onClick: Function) => {
             y: offsetY
         } = getMousePos(canvas!, e)
 
-        const posX = Math.floor((offsetX / width) * pipesShape.length)
-        const posY = Math.floor((offsetY / height) * pipesShape[0].length)
+        const posX = Math.floor((offsetY / width) * pipesShape.length)
+        const posY = Math.floor((offsetX / height) * pipesShape[0].length)
 
-        onClick(posY, posX)
+        onClick(posX, posY)
     }
 
     return {

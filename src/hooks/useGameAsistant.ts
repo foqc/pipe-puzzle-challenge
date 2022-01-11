@@ -30,25 +30,11 @@ export const useGameAsistant = (mapString: string) => {
         setSquares(matrix)
     }
 
-    const printInConsoleStatus = () => {
-        const stringMatrix = fromPipeMatrixToString(asistant!.matrix)
-        let matrixResult = ''
-        for (let row = 0; row < asistant!.rows; row++) {
-            for (let col = 0; col < asistant!.cols; col++) {
-                matrixResult += stringMatrix[row][col]
-            }
-            matrixResult += '\n'
-        }
-
-        console.log(matrixResult)
-    }
-
     const clearMovements = () => asistant!.clearMovements()
 
     return {
         squareShapes,
         handleClickPipe,
-        printInConsoleStatus,
         movementCommands: chunkCommand(movementStatusToCommand(asistant?.movementStatus)),
         clearMovements
     }

@@ -1,4 +1,4 @@
-import { forwardRef, MutableRefObject, useEffect, useState } from 'react'
+import { forwardRef } from 'react'
 
 interface CanvasProps {
     width: number
