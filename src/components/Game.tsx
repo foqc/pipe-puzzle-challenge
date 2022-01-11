@@ -1,8 +1,6 @@
-import { PipeSquareShape } from '../entities/types'
 import useCanvas from '../hooks/useCanvas'
 import { useGame } from '../hooks/useGame'
 import { useGameAsistant } from '../hooks/useGameAsistant'
-import Board from './Board'
 import Canvas from './Canvas'
 import Instructions from './Instructions'
 
@@ -16,10 +14,19 @@ const Game = () => {
 
     const {
         squareShapes, handleClickPipe,
-         movementCommands,       clearMovements
+        movementCommands, clearMovements
     } = useGameAsistant(stringMap)
 
     const { sourceCanvas } = useCanvas(squareShapes, handleClickPipe)
+
+    const showLevels = (levels: number[]) => {
+        return <div>
+            {levels.map(level => <button key={level}
+                className='btn btn--green' disabled={!socketIsReady || squares.length > 0}
+                onClick={() => initLevel(level)}>Start level {level}</button>)
+            }
+        </div>
+    }
 
     return <div className='layout-grid'>
         <Instructions />
@@ -28,7 +35,7 @@ const Game = () => {
                 <h2>Map</h2>
                 <Canvas ref={sourceCanvas} width={10} height={10} />
 
-                <button className='btn btn--green' disabled={!socketIsReady || squares.length > 0} onClick={() => initLevel(3)}>Start first level</button>
+                {showLevels([1, 2, 3, 4, 5, 6])}
                 <button className='btn btn--blue' disabled={!socketIsReady} onClick={onVerify}>Verify</button>
                 <button className='btn btn--blue' disabled={movementCommands.length === 0} onClick={() => {
                     sendMoveCommands(movementCommands)

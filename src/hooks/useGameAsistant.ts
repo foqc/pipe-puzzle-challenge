@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { GameAsistant } from '../entities/GameAsistant'
 import { PipeSquareShape } from '../entities/types'
-import { chunkCommand, fromPipeMatrixToString, fromPipeToPipeSquareShape, movementStatusToCommand, parseMap, parseMapToPipeShape, parsePipeShapeToPipeSquare } from '../utils/utils'
+import { chunkCommand, fromPipeToPipeSquareShape, movementStatusToCommand, parseMap, parseMapToPipeShape, parsePipeShapeToPipeSquare } from '../utils/utils'
 
 export const useGameAsistant = (mapString: string) => {
 

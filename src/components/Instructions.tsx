@@ -13,7 +13,7 @@ const Instructions = () => <div className='col'>
     <h2>Steps</h2>
     <ol>
         <li>
-            First press <strong>"Start First Level"</strong> button to initialize a level.
+            First press <strong>"Start Level #"</strong> button to initialize a level.
         </li>
         <li>
             Click a tile in map
@@ -28,6 +28,7 @@ const Instructions = () => <div className='col'>
             To check if is a valid solution, click in <strong>"Verify"</strong> button, if it is valid a <strong>Level password</strong> should be displayed.
         </li>
     </ol>
+    <strong>Note:</strong> UI in levels greater that 3 is not working properly.
 </div>
 
 export default Instructions

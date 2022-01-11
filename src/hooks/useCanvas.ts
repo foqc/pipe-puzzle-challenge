@@ -33,7 +33,7 @@ const useCanvas = (pipesShape: PipeSquareShape[][], onClick: Function) => {
         if (width > 0 && height > 0 && pipesShape.length > 0) {
             drawBoard()
         }
-    }, [pipesShape])
+    })
 
     useEffect(() => {
         if (canvas && pipesShape.length > 0)
