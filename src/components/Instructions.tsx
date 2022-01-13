@@ -19,16 +19,16 @@ const Instructions = () => <div className='col'>
             Click a tile in map
         </li>
         <li>
-            If the movement carried out is correct the color changes to blue instead of red.
+            If the movement carried out is correct the color changes to blue.
         </li>
         <li>
-            To synchronize server map and the local map, click in <strong>"Sync Server Map"</strong> button (this will send to server the list of movements).
+            To check if a map is valid click <strong>"Verify"</strong> button (this will send to server the list of movements and verify the soluction).
         </li>
         <li>
-            To check if is a valid solution, click in <strong>"Verify"</strong> button, if it is valid a <strong>Level password</strong> should be displayed.
+            If it is valid solution a <strong>Level password</strong> should be displayed.
         </li>
     </ol>
-    <strong>Note:</strong> UI in levels greater that 3 is not working properly.
+    <strong>Note:</strong> UI in levels greater that 2 is not working properly.
 </div>
 
 export default Instructions
