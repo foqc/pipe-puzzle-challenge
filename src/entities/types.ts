@@ -1,5 +1,7 @@
 export type PositionTuple = [positionX: number, positionY: number]
 
+export type ImageAssetTuple = [original: string, alternative: string]
+
 export enum DIRECTION {
     UP, RIGHT, DOWN, LEFT
 }

@@ -12,6 +12,8 @@ const Board = ({ squares, onClick, isDisabled }: BoardProps) => {
         key={`${posX}_${posY}`}
         value={squares[posX][posY]}
         isDisabled={isDisabled}
+        posX={posX}
+        posY={posY}
         onClick={() => onClick(posX, posY)} />
 
     const renderRow = (posX: number) => <div key={`${posX}_`} className="board-row">
