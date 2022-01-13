@@ -16,13 +16,13 @@ const Instructions = () => <div className='col'>
             First press <strong>"Start Level #"</strong> button to initialize a level.
         </li>
         <li>
-            Click a tile in map
+            Click a tile in map.
         </li>
         <li>
             If the movement carried out is correct the color changes to blue.
         </li>
         <li>
-            To check if a map is valid click <strong>"Verify"</strong> button (this will send to server the list of movements and verify the soluction).
+            To check if a map is valid click <strong>"Verify"</strong> button (this will send to server the list of movements and verify the solution).
         </li>
         <li>
             If it is valid solution a <strong>Level password</strong> should be displayed.

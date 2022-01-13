@@ -15,7 +15,6 @@ export const useGame = () => {
 
     useEffect(() => {
         const stringMap = response?.toString()
-        console.log("🚀 returned status: ", stringMap)
         if (isMapAsString(stringMap)) {
             setStringMap(stringMap)
         }
