@@ -22,8 +22,8 @@ const Game = () => {
     } = useGameAsistant(stringMap)
 
     /**
-     * [showVanillaCanvas, sourceCanvas] options added to show you how 
-     * I use a vanilla Canvas 2D (this was added before use konva library)
+     * [showVanillaCanvas, sourceCanvas] options were added to show you how 
+     * I use a vanilla Canvas 2D (this was added before konva library)
      */
     const [showVanillaCanvas, _] = useState(false)
     const { sourceCanvas } = useCanvas(squareShapes, handleClickPipe)
